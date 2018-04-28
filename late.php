@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Samsul's ToDo App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <title>Late Tasks</title>
         <script>
             function validateAddTask()
             {
@@ -20,12 +22,39 @@
 	</script>
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="index.php">Samsul's ToDo List</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">All Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="started.php">Started Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pending.php">Pending Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="completed.php">Completed Tasks</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="late.php">Late Tasks <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <br>
         <center>
             <form name="addTaskForm" action="addTask.php"
                   onsubmit="return validateAddTask()" method="POST">
                 <input type="text" name="taskName"
                        value="<?php if(isset($taskName)) echo $taskName; ?>"
                        placeholder="Task Name"/>
+                <p>Due Date: </p>
                 <input type="date" value="<?php echo date('Y-m-d'); ?>"
                        name="taskDueDate"/>
                 <br>
@@ -46,22 +75,6 @@
         $numRows = mysqli_num_rows($allTasksResult);
         
         echo "<center>";
-        echo "<h3><a href='index.php'>Total Number</a> of Tasks: $numRows</h3>";
-        
-        $pendingTasks = "SELECT * FROM tasks WHERE taskStatus='Pending';";
-        $pendingTasksResult = mysqli_query($dbCon, $pendingTasks);
-        $numRowsPending = mysqli_num_rows($pendingTasksResult);
-        echo "<h3>Number of <a href='pending.php'>Pending Tasks</a>: $numRowsPending</h3>";
-        
-        $startedTasks = "SELECT * FROM tasks WHERE taskStatus='Started';";
-        $startedTasksResult = mysqli_query($dbCon, $startedTasks);
-        $numRowsStarted = mysqli_num_rows($startedTasksResult);
-        echo "<h3>Number of <a href='started.php'>Started Tasks</a>: $numRowsStarted</h3>";
-        
-        $completedTasks = "SELECT * FROM tasks WHERE taskStatus='Completed';";
-        $completedTasksResult = mysqli_query($dbCon, $completedTasks);
-        $numRowsCompleted = mysqli_num_rows($completedTasksResult);
-        echo "<h3>Number of <a href='completed.php'>Completed Tasks</a>: $numRowsCompleted</h3>";
         
         $lateTasks = "SELECT * FROM tasks WHERE taskStatus='Late';";
         $lateTasksResult = mysqli_query($dbCon, $lateTasks);
@@ -94,5 +107,8 @@
         echo "</center>";
 
         ?>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     </body>
 </html>
